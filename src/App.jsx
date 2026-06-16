@@ -45,7 +45,7 @@ const css = `
     position:relative;
     z-index:2;
   }
-  #hero .section-inner { display:grid; grid-template-columns:1fr 1fr; align-items:center; gap:3rem; max-width:1400px; margin:0 auto; padding:200px 4rem 3rem; }
+  #hero .section-inner { display:grid; grid-template-columns:1fr 1fr; align-items:center; gap:3rem; max-width:1400px; margin:0 auto; padding:175px 4rem 3rem; }
   .hero-left { display:flex;flex-direction:column;align-items:flex-start; }
   .hero-badge { display:inline-flex;align-items:center;gap:.5rem;padding:.38rem 1.1rem;border:1px solid rgba(201,168,76,.4);border-radius:100px;font-size:.75rem;letter-spacing:.15em;text-transform:uppercase;color:var(--gold);margin-bottom:1.4rem;animation:badgePulse 3.5s ease-in-out infinite; }
   @keyframes badgePulse { 0%,100%{box-shadow:0 0 0 0 rgba(201,168,76,.3)} 50%{box-shadow:0 0 0 10px rgba(201,168,76,0)} }
