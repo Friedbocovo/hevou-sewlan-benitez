@@ -234,9 +234,10 @@ function HeroSlideshow() {
 
 /* =========================================================
    CONTACT FORM — envoie vers votre email via Formspree
-   IMPORTANT : remplacez YOUR_FORM_ID par votre ID Formspree
-   (gratuit sur https://formspree.io — 50 emails/mois)
+   Configurez la variable d'environnement VITE_FORMSPREE_URL
+   avec l'URL de votre endpoint Formspree.
 ========================================================= */
+const FORMSPREE_URL = import.meta.env.VITE_FORMSPREE_URL || "";
 
 function ContactForm() {
   const [status, setStatus] = useState("idle"); // idle | sending | success | error
@@ -257,9 +258,14 @@ function ContactForm() {
     if (errors[e.target.name]) setErrors(er => ({ ...er, [e.target.name]: "" }));
   };
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (event) => {
+    event.preventDefault();
     const e = validate();
     if (Object.keys(e).length) { setErrors(e); return; }
+    if (!FORMSPREE_URL) {
+      setStatus("error");
+      return;
+    }
     setStatus("sending");
     try {
       const res = await fetch(FORMSPREE_URL, {
@@ -307,10 +313,12 @@ function ContactForm() {
       <h3 style={{ fontFamily: "'Playfair Display',serif", color: "var(--gold)", marginBottom: "1.2rem" }}>Envoyer un message</h3>
       {status === "error" && (
         <div style={{ background: "rgba(220,80,80,.12)", border: "1px solid rgba(220,80,80,.3)", borderRadius: "8px", padding: ".7rem 1rem", color: "#e07777", fontSize: ".82rem", marginBottom: "1rem" }}>
-          Erreur lors de l'envoi. Verifiez votre connexion ou ecrivez directement a benitezhevou44@gmail.com
+          {FORMSPREE_URL
+            ? "Erreur lors de l'envoi. Verifiez votre connexion ou ecrivez directement a benitezhevou44@gmail.com"
+            : "Le formulaire n'est pas encore configuré. Ajoutez VITE_FORMSPREE_URL dans votre environnement pour activer l'envoi."}
         </div>
       )}
-      <div className="contact-form">
+      <form className="contact-form" onSubmit={handleSubmit}>
         {inp("name", "Votre nom complet")}
         {inp("email", "Votre adresse email", "email")}
         {inp("subject", "Sujet")}
@@ -325,14 +333,14 @@ function ContactForm() {
           />
           {errors.message && <div style={{ color: "#e07777", fontSize: ".72rem", marginTop: ".3rem" }}>{errors.message}</div>}
         </div>
-        <button className="btn btn-g" onClick={handleSubmit} disabled={status === "sending"}>
+        <button className="btn btn-g" type="submit" disabled={status === "sending"}>
           {status === "sending" ? (
             <><div className="spinner" /> Envoi en cours...</>
           ) : (
             <><Send size={15} /> Envoyer le message</>
           )}
         </button>
-      </div>
+      </form>
     </div>
   );
 }
