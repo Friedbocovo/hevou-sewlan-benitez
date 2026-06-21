@@ -434,6 +434,7 @@ function About() {
 ========================================================= */
 function Skills() {
   const software = [
+    { name: "Exel", pct: 85, desc: "Feuille exel" },
     { name: "AutoCAD", pct: 85, desc: "Conception de plans detailles" },
     { name: "Covadis", pct: 75, desc: "Infrastructures routieres" },
     { name: "Robot Structural Analysis", pct: 70, desc: "Calcul de structures" },
